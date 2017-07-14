@@ -1,0 +1,42 @@
+<ion-header>
+    <ion-navbar class="navbar-with-action">
+        <ion-title class="title-logo" text-center>
+            <!--img src="/assets/icon/mattereum.png"/-->
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content padding fullscreen="true" fixed>
+
+    <ion-slides class="homepage-slider" pager autoplay="5000" loop="true">
+
+        <ion-slide>
+            <div class="slider-main-title">
+                <p>The right candidate for your next project</p>
+
+            </div>
+
+            <div class="slider-sub-title">
+                <p>Game-changing referral engagement network.</p>
+                <p>Turn every employee into your best recruiter.</p>
+            </div>
+        </ion-slide>
+
+        <ion-slide>
+            <div class="slider-main-title">
+                <p>Smart talent sourcing on the blockchain</p>
+
+            </div>
+
+            <div class="slider-sub-title">
+                <p>The best people available just a tap away.</p>
+            </div>
+        </ion-slide>
+
+
+    </ion-slides>
+
+    <button text-center ion-button block class="login-button">Login</button>
+    <button text-center ion-button block class="signup-button" (click)="presentSignUpActionSheet()">Sign up</button>
+</ion-content>

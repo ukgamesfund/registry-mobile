@@ -1,0 +1,186 @@
+// http://ionicframework.com/docs/v2/theming/
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono');
+
+/* latin-ext */
+@font-face {
+  font-family: 'SourceSansPro';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Source Sans Pro'), local('SourceSansPro-Regular'), url(https://fonts.gstatic.com/s/sourcesanspro/v9/ODelI1aHBYDBqgeIAH2zlIa1YDtoarzwSXxTHggEXMw.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* latin-ext */
+@font-face {
+  font-family: 'SourceSansPro-Bold';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Source Sans Pro Bold'), local('SourceSansPro-Bold'), url(https://fonts.gstatic.com/s/sourcesanspro/v9/toadOcfmlt9b38dHJxOBGO4s1Ux4PuImWPk5fSr6HPL3rGVtsTkPsbDajuO5ueQw.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+/* latin-ext */
+@font-face {
+  font-family: 'SourceSansPro-Semibold';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Source Sans Pro Semibold'), local('SourceSansPro-Semibold'), url(https://fonts.gstatic.com/s/sourcesanspro/v9/toadOcfmlt9b38dHJxOBGKyGJhAh-RE0BxGcd_izyev3rGVtsTkPsbDajuO5ueQw.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+
+* {
+  font-family: 'SourceSansPro', sans-serif;
+}
+
+// Global CSS attributes
+ion-header.header:after {
+  display: none;
+}
+
+.centered-paragraph {
+  font-family: 'SourceSansPro-Semibold', 'sans-serif';
+  font-size: 15px;
+  letter-spacing: 0;
+  color: #000;
+  text-align: center !important;
+}
+
+
+.next-button {
+  font-family: 'SourceSansPro-Bold', 'sans-serif';
+  font-size: 14px;
+  line-height: 18px;
+  color: #FFFFFF;
+  background: #4B76ED;
+  border-radius: 2px;
+  max-width: 180px;
+  margin: 10px auto;
+}
+
+rl-tag-input.rl-tag-input-container {
+  background-color: #fff;
+  position: relative;
+  padding: 15px 0px 15px 50px;
+  border-top: 1px solid #c1c1c1;
+}
+
+.rl-tag-input-container:before {
+  content: "\f002";
+  display: block;
+  font-family: FontAwesome;
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  font-size: 24px;
+}
+
+.rl-tag-input-container.without-icon:before {
+  display: none;
+}
+
+rl-tag-input.rl-tag-input-container.without-icon {
+  padding: 5px 0px 5px 26px;
+}
+
+.rl-tag-input-container rl-tag-input-item {
+  background-color: #4A75ED;
+  font-family: SourceSansPro;
+  color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.rl-tag-input-container .ng2-tag-input-remove {
+  background-color: transparent !important;
+}
+
+.rl-tag-input-container rl-tag-input-autocomplete {
+  width: 100%;
+  left: -25px;
+}
+
+.register-step-description {
+  position: relative;
+}
+
+.register-step-description .register-step-number {
+  position: absolute;
+  right: 20px;
+  color: #c1c1c1;
+  font-family: SourceSansPro;
+}
+
+rl-tag-input-autocomplete {
+  z-index: 10000 !important;
+}
+
+rl-tag-input.disabled > .ng2-tag-input-form > .ng2-tag-input-field {
+  display: none;
+}
+
+.button-camera {
+  height: 6em;
+}
+
+.button-camera .button-inner {
+  white-space: normal !important;
+  display: block;
+  height: 50px;
+}
+
+.button-camera .button-inner ion-icon {
+  display: block;
+}
+
+.button-camera .button-inner ion-icon:before {
+  font-size: 40px;
+  line-height: 30px;
+}
+
+.lis-action-button ion-icon {
+  font-size: 40px;
+}
+
+/* LEVEL EXPERIENCE */
+
+.level-experience-list {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.level-experience-list.active > button {
+  opacity: 0.6;
+}
+
+.level-experience-list > button {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+  border-radius: 20px;
+
+}
+
+.level-experience-list > button .button-inner {
+  font-family: SourceSansPro;
+  font-size: 14.0px;
+  font-weight: bold;
+}
+
+.level-experience-list > button.active {
+  background-color: #232247;
+  opacity: 1;
+}

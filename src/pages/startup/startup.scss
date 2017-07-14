@@ -1,0 +1,78 @@
+page-startup {
+
+  .homepage-slider {
+    height: calc(100% - 150px) !important;
+  }
+
+  .swiper-pagination-bullet-active {
+    background: black;
+  }
+
+  .slider-main-title {
+    font-size: 29px;
+  }
+
+  .slider-sub-title {
+    font-size: 15px;
+  }
+
+  .login-button {
+    font-family: 'SourceSansPro-Bold', 'sans-serif';
+    font-size: 14px;
+    line-height: 18px;
+    color: #FFFFFF;
+    letter-spacing: 1px;
+    background: #232247;
+    border-radius: 2px;
+    max-width: 290px;
+    margin: 10px auto;
+  }
+
+  .signup-button {
+    font-family: 'SourceSansPro-Bold', 'sans-serif';
+    font-size: 14px;
+    line-height: 18px;
+    color: #FFFFFF;
+    background: #4B76ED;
+    border-radius: 2px;
+    max-width: 290px;
+    margin: 10px auto;
+  }
+
+  .action-sheet-group {
+    background-color: #fff;
+  }
+}
+
+.homepage-action-sheet {
+
+}
+
+.homepage-action-sheet .action-sheet-title {
+  font-family: 'SourceSansPro-Semibold', 'sans-serif';
+  text-align: center;
+  font-size: 14px;
+  color: #000;
+  letter-spacing: 0;
+}
+
+.homepage-action-sheet .homepage-action-sheet-button {
+  background: #4B76ED;
+  font-size: 14px;
+  line-height: 18px;
+  color: #FFFFFF;
+  border-radius: 2px;
+  max-width: 290px;
+  margin: 10px auto;
+  display: block;
+}
+
+.homepage-action-sheet .homepage-action-sheet-button .button-inner {
+  font-family: 'SourceSansPro-Bold', 'sans-serif';
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  line-height: 18px;
+  justify-content: center;
+  color: #FFFFFF;
+}

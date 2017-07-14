@@ -1,0 +1,47 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Wallet</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-grid>
+
+        <ion-row>
+            <qr-code [value]="walletService.address" [size]="300"></qr-code>
+        </ion-row>
+        <ion-row class="address">
+            0x{{walletService.address}}
+        </ion-row>
+    </ion-grid>
+
+    <form (ngSubmit)="walletTopup()" method="post" #walletForm="ngForm">
+        <ion-row>
+            <ion-col>
+                <ion-list inset>
+                    <ion-item>
+                        <ion-label color="primary" fixed>Ether amount</ion-label>
+                        <ion-input outline type="number" [value]="0" [(ngModel)]="amount" name="amount" required></ion-input>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <button ion-button full type="submit" [disabled]="!walletForm.form.valid">Topup Ether</button>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col>
+                <ion-label color="primary" inline>Balance</ion-label>
+                <ion-input type="number" [(ngModel)]="balance" [value]="balance" [disabled]="disabled"
+                           name="balance"></ion-input>
+            </ion-col>
+        </ion-row>
+    </form>
+
+</ion-content>

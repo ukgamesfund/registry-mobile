@@ -1,0 +1,17 @@
+page-tx-demo {
+  .text {
+    margin-top: 20px;
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: small;
+  }
+
+  div.spinner {
+    margin: 15% 30% 30%;
+    text-align: center;
+  }
+
+  .spinner svg {
+    height: 500% !important;
+    width: auto;
+  }
+}

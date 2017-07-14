@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Send Transaction</ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+    <ion-refresher
+            (ionStart)="doIonStart($event)"
+            (ionRefresh)="doIonRefresh($event)"
+            pullMin="5"
+            pullMax="10"
+            closeDuration="0"
+            snapbackDuration="0">
+    </ion-refresher>
+
+    <ion-grid>
+        <ion-row>
+            <ion-list>
+                <ion-item>
+                    <ion-label color="primary" stacked>Test number here</ion-label>
+                    <ion-input full type="number" [value]="number" [(ngModel)]=number></ion-input>
+                </ion-item>
+            </ion-list>
+        </ion-row>
+
+        <ion-row>
+            <button ion-button full (click)='setTestNumber()'>Send Transaction</button>
+        </ion-row>
+
+    </ion-grid>
+</ion-content>

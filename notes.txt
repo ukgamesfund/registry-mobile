@@ -1,0 +1,15 @@
+1. To make sure the android build/run doesn't crash with google android api level 26.
+
+- Add in /platforms/android/build.gradle the following code:
+
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'com.android.support') {
+            if (!requested.name.startsWith("multidex")) {
+                details.useVersion '25.3.0'
+            }
+        }
+    }
+}
+
