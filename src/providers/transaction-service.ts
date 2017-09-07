@@ -1,67 +1,72 @@
 import {Injectable} from '@angular/core';
-import {Http} from '@angular/http';
 import 'rxjs/add/operator/map';
 
 import {Platform} from 'ionic-angular';
 
-import {WalletService} from "./wallet-service";
-import {Utils} from "./utility-service";
+import {WalletService} from './wallet-service';
+import {Utils} from './utility-service';
+import {Status, CONST} from '../utils/contracts-common';
+
+import Semaphore from 'semaphore-async-await';
 
 const Web3 = require('web3')
-const HookedWeb3Provider = require("hooked-web3-provider")
-const Transaction = require("ethereumjs-tx")
+const HookedWeb3Provider = require('hooked-web3-provider')
+const Transaction = require('ethereumjs-tx')
 
-const PromisifyWeb3 = require("../utils/promisifyWeb3.js");
-const Contract = require("truffle-contract");
-
-const CONST = require("../utils/contracts-common.js").CONST;
+const PromisifyWeb3 = require('../utils/promisifyWeb3.js');
+const Contract = require('truffle-contract');
 
 
 @Injectable()
 export class TransactionService {
 
 	private web3: any
-	private rpc: string = "http://parity.dltlab.io:8545"
+	private rpc: string = 'http://parity.dltlab.io:8545'
 
-	private testContractAddress: string = "0x73EdC8F49a4e1aB04a5569e077Cb8d0663AF7292"
+	private testContractAddress: string = '0xBDb5aDE6acB0D11C93f0043f0C842B9Ae3AECac1'
 	private testContractInstance: any
 
 	private initialised: boolean
+	private lock = new Semaphore(1);
 
-	constructor(public http: Http,
-	            public walletService: WalletService,
+	constructor(public walletService: WalletService,
 	            public platform: Platform) {
 		console.log('TransactionService.constructor()')
 		this.initialised = false
 	}
 
-	public async initialise(): Promise<boolean> {
+	public async initialize(): Promise<boolean> {
+
+		await this.lock.acquire();
 
 		// if already initialised we return immediately
 		if (this.initialised) {
+			this.lock.release();
 			return true
 		}
 
-		// wait for the platform to initialise before accessing storage plugin
+		// wait for the platform to initialize before accessing storage plugin
 		await this.platform.ready()
 
-		console.log("TransactionService.initialise()")
+		console.log('TransactionService.initialize()')
 
 		// make sure the wallet is initialised
-		let initialised = await this.walletService.initialise()
+		let initialised = await this.walletService.initialize()
 		if (initialised == false) {
+			this.lock.release();
 			return false;
 		}
-		console.log("wallet...." + this.walletService.address)
+		console.log('Wallet: ' + this.walletService.address)
 
 		this.web3 = new Web3(this.getHookedWeb3Provider())
 		PromisifyWeb3.promisify(this.web3);
 
-		let testContractTemplate = Contract(require("../utils/test.json"))
+		let testContractTemplate = Contract(require('../utils/test.json'))
 		testContractTemplate.setProvider(this.getHookedWeb3Provider())
 		this.testContractInstance = await testContractTemplate.at(this.testContractAddress)
 
 		this.initialised = true
+		this.lock.release();
 		return true
 	}
 
@@ -71,16 +76,19 @@ export class TransactionService {
 	}
 
 	public async getTestNumber() {
-		console.log("TransactionService.getTestNumber()")
+		console.log('TransactionService.getTestNumber()')
 		return (await this.testContractInstance.Number()).toNumber()
 	}
 
 	public async setTestNumber(number: Number) {
-		console.log("TransactionService.setTestNumber()")
+		console.log('TransactionService.setTestNumber()')
 
 		let address = this.walletService.address
+		console.log('address= ' + address)
 		return await this.testContractInstance.SetNumber(number, {from:  Utils.add0x(address)});
 	}
+
+	// ---------------------------------------------------------------------------------------------------
 
 	private getHookedWeb3Provider() {
 		let provider = new HookedWeb3Provider({
@@ -98,7 +106,7 @@ export class TransactionService {
 	}
 
 	private async sign(params, callback) {
-		console.log("TransactionService.sign()")
+		console.log('TransactionService.sign()')
 		let tx = {};
 
 		let gasPrice = await this.web3.eth.getGasPricePromise()
@@ -111,7 +119,7 @@ export class TransactionService {
 		tx['gasPrice'] = parseInt(gasPrice)
 		tx['nonce'] = parseInt(nonce)
 
-		let gasLimit = '3000000';
+		let gasLimit = '1000000';
 
 		if (params['value'] != undefined) {
 			tx['value'] = params['value'];
@@ -128,13 +136,15 @@ export class TransactionService {
 		tx['gasLimit'] = parseInt(gasLimit)
 		tx['gas'] = parseInt(gasLimit)
 
+		console.log(JSON.stringify(tx))
+
 		let transaction = new Transaction(tx)
 		let key = this.walletService.privateKey()
 
 		transaction.sign(key)
 		let signed = transaction.serialize().toString('hex')
 
-		console.log("signed: " + signed)
+		console.log('signed: ' + signed)
 		callback(null, '0x' + signed)
 	}
 
@@ -144,7 +154,7 @@ export class TransactionService {
 	}
 
 	public etherToWei(ether: number) {
-		let wei = this.web3.toWei(ether.toString(), "ether");
+		let wei = this.web3.toWei(ether.toString(), 'ether');
 		return wei;
 	}
 }

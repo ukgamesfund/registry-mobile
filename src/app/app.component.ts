@@ -1,18 +1,21 @@
 import {Component, ViewChild} from '@angular/core';
 import {Nav, Platform} from 'ionic-angular';
+import {Storage} from '@ionic/storage';
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {WalletPage} from '../pages/wallet/wallet';
 import {TxDemoPage} from '../pages/tx-demo/tx-demo';
-//import {StartupPage} from "../pages/startup/startup";
+import {StartupPage} from "../pages/startup/startup";
 import {Deeplinks} from "@ionic-native/deeplinks";
-import {ScannerPage} from "../pages/scanner/scanner";
 import {SocialConnectPage} from "../pages/social-connect/social-connect";
 import {RegisterPage} from "../pages/register/register";
 import {ProfilePage} from "../pages/profile/profile";
 import {JobListPage} from "../pages/job-list/job-list";
 import {PostJobPage} from "../pages/post-job/post-job";
 import {PostJobRewardPage} from "../pages/post-job/step-reward/postjob-reward";
+import {HomePage} from "../pages/home/home";
+import {WalletService} from "../providers/wallet-service";
+import {Dialogs} from "@ionic-native/dialogs";
 
 @Component({
 	templateUrl: 'app.html'
@@ -20,14 +23,18 @@ import {PostJobRewardPage} from "../pages/post-job/step-reward/postjob-reward";
 export class MyApp {
 	@ViewChild(Nav) nav: Nav;
 
-	rootPage: any = WalletPage;
+	rootPage: any = StartupPage;
 
 	pages: Array<{ title: string, component: any }>;
+	pages2: any;
 
-	constructor(public platform: Platform,
-	            public statusBar: StatusBar,
-	            public splashScreen: SplashScreen,
-	            private deepLinks: Deeplinks) {
+	constructor(private dialogs: Dialogs,
+	            private platform: Platform,
+	            private statusBar: StatusBar,
+	            private splashScreen: SplashScreen,
+	            private deepLinks: Deeplinks,
+				private walletService: WalletService,
+				private regularStorage: Storage,) {
 		this.initializeApp();
 
 		// used for an example of ngFor and navigation
@@ -35,13 +42,34 @@ export class MyApp {
 			{title: 'Wallet', component: WalletPage},
 			{title: 'Transaction', component: TxDemoPage},
 		];
+
+		this.pages2 = {
+			walletPage: WalletPage,
+			txDemoPage: TxDemoPage,
+			startupPage: StartupPage,
+			homePage: HomePage,
+		}
 	}
 
 	async initializeApp() {
 		await this.platform.ready()
 
-		// Okay, so the platform is ready and our plugins are available.
-		// Here you can do any higher level native things you might need.
+		let success = await this.walletService.initialize();
+		if (!success) {
+			await this.regularStorage.set("wallet-needs-reset", true);
+			this.dialogs.alert(
+				"Please enable device security",
+				"Security Alert",
+				"OK"
+			).then(() => this.platform.exitApp())
+		}
+
+		if(await this.walletService.walletExists()) {
+			await this.nav.setRoot(HomePage);
+		} else {
+			await this.nav.setRoot(StartupPage);
+		}
+
 		this.statusBar.styleDefault();
 		this.splashScreen.hide();
 	}

@@ -37,19 +37,6 @@ export class TxDemoPage {
 		}
 	}
 
-	public async callRegister() {
-		//return this.identityService.register()
-	}
-
-	public async callIssueJwt() {
-		let jwt = await this.identityService.getJwt()
-		console.log(jwt)
-	}
-
-	public async callIsRegistered() {
-		//return this.identityService.registered()
-	}
-
 	public async setTestNumber() {
 		console.log("TxDemoPage.setTestNumber()")
 
@@ -65,10 +52,6 @@ export class TxDemoPage {
 		await this.getTestNumber()
 
 		loading.dismiss()
-	}
-
-	ionViewDidLoad() {
-		console.log("TxDemoPage.ionViewDidLoad()")
 	}
 
 	async ionViewWillEnter() {

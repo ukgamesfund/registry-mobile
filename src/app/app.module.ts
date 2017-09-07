@@ -26,7 +26,8 @@ import {TransactionService} from "../providers/transaction-service";
 import {IdentityService} from "../providers/identity-service";
 import {ApiService} from "../providers/api-service";
 
-import {SecurityService} from "../providers/security-service";
+import {HomePage} from "../pages/home/home";
+import {GlobalService} from "../providers/global-service";
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import {SecurityService} from "../providers/security-service";
 		WalletPage,
 		TxDemoPage,
 		StartupPage,
+		HomePage,
 		ScannerPage,
 	],
 	imports: [
@@ -55,6 +57,7 @@ import {SecurityService} from "../providers/security-service";
 		TxDemoPage,
 		StartupPage,
 		ScannerPage,
+		HomePage,
 		QRCodeComponent,
 	],
 	providers: [
@@ -70,7 +73,7 @@ import {SecurityService} from "../providers/security-service";
 		TransactionService,
 		IdentityService,
 		ApiService,
-		SecurityService,
+		GlobalService,
 		{provide: ErrorHandler, useClass: IonicErrorHandler},
 	]
 })

@@ -1,5 +1,14 @@
 {
-  "name": "mattereum",
+  "name": "registry",
   "type": "ionic-angular",
-  "app_id": "c856e596"
+  "app_id": "c856e596",
+  "proxies": [
+    {
+      "path": "/api",
+      "proxyUrl": "http://192.168.86.36:3000/api"
+    }
+  ],
+  "integrations": {
+    "cordova": {}
+  }
 }

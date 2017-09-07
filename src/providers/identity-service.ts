@@ -6,45 +6,53 @@ import '../utils/rxjs-operators'
 import {Platform} from 'ionic-angular';
 import {Storage} from '@ionic/storage'
 
-import {WalletService} from "./wallet-service";
-import {Config} from "./utility-service";
-import {JwtHelper} from "angular2-jwt";
-import {Dialogs} from "@ionic-native/dialogs";
+import {WalletService} from './wallet-service';
+import {Utils} from './utility-service';
+
+import {Config} from './utility-service';
+import {JwtHelper} from 'angular2-jwt';
+
+import Random from 'random-js';
+import EthUtil from 'ethereumjs-util';
 
 @Injectable()
 export class IdentityService {
 	private initialised: boolean;
 	private jwtHelper: JwtHelper = new JwtHelper();
+	private random: any;
 
 	constructor(public http: Http,
-	            private dialogs: Dialogs,
 	            public walletService: WalletService,
 	            public regularStorage: Storage,
 	            public platform: Platform) {
+
 		console.log('IdentityService.constructor()');
 		this.initialised = false
+		this.random = new Random(Random.engines.nativeMath);
 	}
 
-	public async initialise(): Promise<boolean> {
+	public async initialize(): Promise<boolean> {
 
 		// if already initialised we return immediately
 		if (this.initialised) {
 			return true
 		}
 
-		console.log("IdentityService.initialise()");
+		console.log('IdentityService.initialize()');
 
 		await this.platform.ready();
 		await this.regularStorage.ready();
 
 		// make sure the wallet is initialised
-		let initialised = await this.walletService.initialise();
+		let initialised = await this.walletService.initialize();
 		if (initialised == false) {
-			return false;
+			return Promise.reject(false);
 		}
 
+		await this.jwt()
+
 		this.initialised = true
-		return true
+		return Promise.resolve(true);
 	}
 
 	private get reqOpt(): RequestOptions {
@@ -64,49 +72,47 @@ export class IdentityService {
 		})
 
 		let address = this.walletService.address
-		let result: Response = await this.http.get(Config.API_HOST + "/v1/id/jwt/" + address, options).toPromise()
+		let result: Response = await this.http.get(Config.API_HOST + '/api/jwt/' + address, options).toPromise()
 		if (result.status == 207) {
-			throw Error("Error getting challenge from server");
+			throw Error('Error getting challenge from server');
 		}
 
 		let code = result.json().code
-		console.log("code: " + code)
+		console.log('code: ' + code)
 
-		let signature = this.walletService.sign(code, true)
-		console.log("sign: " + signature)
-		let body = {signature: signature}
+		let nonce = this.random.hex(64);
+		console.log('nonce: ' + nonce)
 
-		result = await this.http.post(Config.API_HOST + "/v1/id/jwt", body, options).toPromise()
-		if (result.status == 207) {
-			throw Error("Error validating signed challenge");
+		let message = EthUtil.toBuffer(code + nonce);
+		let signature = await this.walletService.sign(message, true)
+		console.log('sign: ' + signature)
+
+		let post = {
+			payload: {
+				signature: Utils.strip0x(signature),
+				nonce: Utils.strip0x(nonce)
+			}
 		}
 
-		let token = result.json().token
+		result = await this.http.post(Config.API_HOST + '/api/jwt/' + address, post, options).toPromise()
+		if (result.status != 200) {
+			throw Error('Error validating signed challenge');
+		}
 
-		await this.regularStorage.set("jwt", token)
+		let token = result.json().jwt
+
+		await this.regularStorage.set('jwt', token)
 		return token
 	}
 
-	public async getJwt(): Promise<string> {
+	public async jwt(): Promise<string> {
 
-		let jwt = await this.regularStorage.get("jwt")
+		let jwt = await this.regularStorage.get('jwt')
 		if (jwt && !this.jwtHelper.isTokenExpired(jwt, 3600)) {
 			return jwt
 		}
 
-		return this.getNewJwt()
-	}
-
-	public async sendJwt(publicKey: string) {
-		publicKey = 'M2EAH5fHDls+zKOhg3731TsL6LhlHuxGAf2OzDMxoBI=';
-		let jwt = await this.getNewJwt();
-		let envelope = await this.walletService.encrypt(publicKey, jwt);
-
-		let options = this.reqOpt;
-		options.headers.set('Authorization', 'Bearer ' + jwt);
-		console.log("jwt: " + jwt)
-
-		let response: Response = await this.http.post(Config.API_HOST + "/v1/ws/jwt/" + publicKey, envelope, options).toPromise()
-		console.log("IdentityService.sendJwt(): " + JSON.stringify(response.json()));
+		let token = await this.getNewJwt();
+		return Promise.resolve(token)
 	}
 }

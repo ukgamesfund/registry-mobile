@@ -1,7 +1,7 @@
 <ion-header>
-    <ion-navbar class="navbar-with-action">
+    <ion-navbar class="navbar-with-action" color="primary">
         <ion-title class="title-logo" text-center>
-            <!--img src="/assets/icon/mattereum.png"/-->
+            Welcome to Tal Registry
         </ion-title>
     </ion-navbar>
 </ion-header>
@@ -13,30 +13,34 @@
 
         <ion-slide>
             <div class="slider-main-title">
-                <p>The right candidate for your next project</p>
-
+                <p>Blockchain based IP management</p>
             </div>
 
             <div class="slider-sub-title">
-                <p>Game-changing referral engagement network.</p>
-                <p>Turn every employee into your best recruiter.</p>
+                <p>Immutable records track your project contribution</p>
             </div>
         </ion-slide>
 
         <ion-slide>
             <div class="slider-main-title">
-                <p>Smart talent sourcing on the blockchain</p>
-
+                <p>Blockchain based IP management</p>
             </div>
 
             <div class="slider-sub-title">
-                <p>The best people available just a tap away.</p>
+                <p>Use resolutions to take collectively take decisions about your project</p>
             </div>
         </ion-slide>
 
 
     </ion-slides>
-
-    <button text-center ion-button block class="login-button">Login</button>
-    <button text-center ion-button block class="signup-button" (click)="presentSignUpActionSheet()">Sign up</button>
+    <ion-grid>
+        <ion-row>
+            <button text-center ion-button block class="login-button" (click)="onCreate()">New account</button>
+        </ion-row>
+        <ion-row>
+            <button text-center ion-button block class="signup-button" (click)="onRestore()">Restore
+                account
+            </button>
+        </ion-row>
+    </ion-grid>
 </ion-content>

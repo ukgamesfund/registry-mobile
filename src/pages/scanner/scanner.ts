@@ -38,7 +38,7 @@ export class ScannerPage {
 			console.log(JSON.stringify(data));
 
 			if (!data.cancelled) {
-				this.identityService.sendJwt(data.text);
+				//this.identityService.sendJwt(data.text);
 			}
 
 			this.navCtrl.setRoot(TxDemoPage, null, {

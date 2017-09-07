@@ -1,55 +1,42 @@
 import {Component} from '@angular/core';
-import {Loading, LoadingController} from 'ionic-angular';
+import {Loading, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {TransactionService} from "../../providers/transaction-service";
 
 import {Dialogs} from '@ionic-native/dialogs';
 import {Platform} from 'ionic-angular';
 import {Storage} from '@ionic/storage';
 import {IdentityService} from "../../providers/identity-service";
-import {ApiService} from "../../providers/api-service";
 import {WalletService} from "../../providers/wallet-service";
+import {ApiService} from "../../providers/api-service";
 
 @Component({
-	selector: 'page-startup',
-	templateUrl: 'startup.html'
+	selector: 'page-home',
+	templateUrl: 'home.html'
 })
-export class StartupPage {
+export class HomePage {
 
 	private loading: Loading
 
-	constructor(private dialogs: Dialogs,
+	constructor(public navCtrl: NavController,
+	            public navParams: NavParams,
+	            private dialogs: Dialogs,
 	            private loadingCtrl: LoadingController,
 	            private platform: Platform,
 	            private regularStorage: Storage,
+	            private transactionService: TransactionService,
 	            private walletService: WalletService,
 	            private identityService: IdentityService,
-	            private apiService: ApiService) {
+	            private apiService: ApiService,) {
 
 		this.loading = this.loadingCtrl.create({
 			showBackdrop: true,
 			content: "Please wait while we're preparing your experience..."
 		});
+
 		this.loading.present()
 	}
 
 	async ngOnInit() {
-
-		let success = await this.apiService.initialize();
-		if (!success) {
-			this.dialogs.alert(
-				"Problem communicating with cloud services",
-				"Communication problem",
-				"OK"
-			).then(() => this.platform.exitApp())
-		}
-
-		await this.loading.dismiss()
-	}
-
-	public async onRestore() {
-
-	}
-
-	public async onCreate() {
-
+		this.loading.dismiss();
 	}
 }

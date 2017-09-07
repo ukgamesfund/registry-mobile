@@ -1,25 +1,24 @@
 import {Component, NgZone} from '@angular/core';
-import {NavController, NavParams} from 'ionic-angular';
+import {Loading, LoadingController} from 'ionic-angular';
 
 import {WalletService} from '../../providers/wallet-service'
 import {ApiService} from "../../providers/api-service";
 import {TransactionService} from "../../providers/transaction-service";
-import {SecurityService} from "../../providers/security-service";
+import sleep from 'sleep-promise';
 
 @Component({
 	selector: 'page-wallet',
 	templateUrl: 'wallet.html',
 })
 export class WalletPage {
-	amount: number;
+	amount: number = 1.0;
 	balance: number = 0;
+	private loading: Loading
 
 	constructor(public zone: NgZone,
-	            public navCtrl: NavController,
-	            public navParams: NavParams,
+	            private loadingCtrl: LoadingController,
 	            public apiService: ApiService,
 	            private walletService: WalletService,
-	            private securityService: SecurityService,
 	            private transactionService: TransactionService) {
 		this.updateBalance()
 	}
@@ -33,24 +32,29 @@ export class WalletPage {
 	}
 
 	public async walletTopup() {
-		let data = {
-			address: this.walletService.address,
-			amount: this.transactionService.etherToWei(this.amount)
-		};
 
-		let response = await this.apiService.ethereumFaucet(data);
-		let res = response.json()
-		console.log(JSON.stringify(res))
+		this.loading = this.loadingCtrl.create({
+			showBackdrop: true,
+			content: "Please wait. We are now asking for more test Ether"
+		});
+		await this.loading.present()
 
-		for (let x = 0; x < 5; x++) setTimeout(() => {
-			this.updateBalance();
-		}, 2000 * x);
+		try {
+			let tx = await this.apiService.ethereumFaucet();
+			console.log("Faucet tx= "+tx);
+		} catch (err) {}
+
+		for (let x = 0; x < 5; x++) {
+			await this.updateBalance();
+			await sleep(2000);
+		}
+		await this.loading.dismiss()
 	}
 
 	private async updateBalance() {
 		console.log("Updating Ether balance")
 
-		await this.transactionService.initialise()
+		await this.transactionService.initialize()
 
 		this.zone.run(async () => {
 			this.balance = await this.transactionService.getBalance();

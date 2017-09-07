@@ -1,4 +1,4 @@
-﻿import {Injectable} from "@angular/core";
+﻿import {Injectable} from '@angular/core';
 
 export enum ENV {
 	Local = 1,
@@ -11,11 +11,11 @@ export class Config {
 
 	public static get API_HOST(): string {
 		if (Config.env == ENV.Local) {
-			return "http://192.168.58.1:3000"
+			return ''
 		}
 
 		if (Config.env == ENV.Hyper) {
-			return "http://backend.mattereum.com"
+			return 'http://backend.talregistry.com'
 		}
 
 		return undefined
