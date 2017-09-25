@@ -1,0 +1,34 @@
+<ion-header>
+    <ion-navbar class="navbar-with-action" color="primary">
+        <ion-title class="title-logo" text-center>
+            Account creation
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content padding fullscreen="true" fixed>
+
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-list>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Full name</ion-label>
+                        <ion-input full type="text" [value]="name" [(ngModel)]=name></ion-input>
+                    </ion-item>
+                    <br>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Email address</ion-label>
+                        <ion-input full type="text" [value]="email" [(ngModel)]=email></ion-input>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <button ion-button full (click)='onCreate()'>Create account</button>
+        </ion-row>
+    </ion-grid>
+
+</ion-content>

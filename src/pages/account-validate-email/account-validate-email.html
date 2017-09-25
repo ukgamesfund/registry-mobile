@@ -1,0 +1,31 @@
+<script src="account-validate-email.ts"></script>
+<ion-header>
+    <ion-navbar class="navbar-with-action" color="primary">
+        <ion-title class="title-logo" text-center>
+            Email confirmation
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content padding fullscreen="true" fixed>
+
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-list>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Email confirmation code</ion-label>
+                        <ion-input full type="text" [value]="code" [(ngModel)]=code></ion-input>
+                    </ion-item>
+                    <br>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <button ion-button full (click)='onConfirm()'>Confirm</button>
+        </ion-row>
+    </ion-grid>
+
+</ion-content>

@@ -37,6 +37,7 @@ export class HomePage {
 	}
 
 	async ngOnInit() {
-		this.loading.dismiss();
+		await this.walletService.initializeWallet();
+		await this.loading.dismiss();
 	}
 }

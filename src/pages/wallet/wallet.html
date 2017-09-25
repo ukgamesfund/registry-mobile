@@ -3,7 +3,7 @@
         <button ion-button menuToggle>
             <ion-icon name="menu"></ion-icon>
         </button>
-        <ion-title>Wallet</ion-title>
+        <ion-title>My Profile</ion-title>
     </ion-navbar>
 </ion-header>
 
@@ -18,9 +18,15 @@
                 <strong class="mono">0x{{walletService.address}}</strong>
                 <br>
                 <strong class="mono">Balance: {{balance}} ETH</strong>
+                <br>
+                <br>
+                <strong class="mono">Name: {{user.name}}</strong>
+                <br>
+                <strong class="mono">Email: {{user.email}}</strong>
             </ion-col>
         </ion-row>
         <br>
+
         <form (ngSubmit)="walletTopup()" method="post" #walletForm="ngForm">
             <ion-row>
                 <ion-col>
@@ -28,6 +34,13 @@
                 </ion-col>
             </ion-row>
         </form>
+
+        <br>
+        <ion-row>
+            <ion-col>
+                <button ion-button full (click)='onBackup()'>Backup account seed words</button>
+            </ion-col>
+        </ion-row>
     </ion-grid>
 
 </ion-content>

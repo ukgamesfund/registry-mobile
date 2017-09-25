@@ -16,6 +16,9 @@ import {PostJobRewardPage} from "../pages/post-job/step-reward/postjob-reward";
 import {HomePage} from "../pages/home/home";
 import {WalletService} from "../providers/wallet-service";
 import {Dialogs} from "@ionic-native/dialogs";
+import {AccountValidateEmailPage} from "../pages/account-validate-email/account-validate-email";
+import {AccountCreatePage} from "../pages/account-create/account-create";
+import {AccountRestorePage} from "../pages/account-restore/account-restore";
 
 @Component({
 	templateUrl: 'app.html'
@@ -37,7 +40,6 @@ export class MyApp {
 				private regularStorage: Storage,) {
 		this.initializeApp();
 
-		// used for an example of ngFor and navigation
 		this.pages = [
 			{title: 'Wallet', component: WalletPage},
 			{title: 'Transaction', component: TxDemoPage},

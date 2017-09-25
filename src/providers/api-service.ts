@@ -60,25 +60,29 @@ export class ApiService {
 		return Promise.resolve(tx);
 	}
 
-	public async addUser() {
+	public async addUser(name: string, email: string) {
 		let address = await this.walletService.address;
-		let existing = await this.getUser();
-		if(existing && existing.address) {
-			return existing;
-		}
 
 		let body = {
 			user: {
 				address: address,
-				name: '',
+				name: name,
+				email: email,
 				details: {}
 			}
 		};
 
 		let options = await this.getOptions();
-		let res = await this.http.post(Config.API_HOST+'/api/user', body, options).toPromise();
-		let json = res.json()
-		return Promise.resolve(json)
+
+		let res = null;
+		try {
+			let res = await this.http.post(Config.API_HOST+'/api/user', body, options).toPromise();
+			let json = res.json();
+			return Promise.resolve(json);
+		} catch(err) {
+			let message = JSON.parse(err['_body']).message;
+			return Promise.reject(message);
+		}
 	}
 
 	public async getUser() {
@@ -103,6 +107,48 @@ export class ApiService {
 		let res = await this.http.put(Config.API_HOST+'/api/user', body, options).toPromise();
 		let json = res.json()
 		return Promise.resolve(json)
+	}
+
+	public async sendEmailCode(email: string) {
+
+
+		let headers = new Headers();
+		headers.append('Accept', 'application/json');
+		headers.append('Content-Type', 'application/json');
+		let options = new RequestOptions({headers: headers});
+
+		let body = {
+			email: email
+		}
+
+		let res = await this.http.post(Config.API_HOST+'/api/email/code', body, options).toPromise();
+		let json = res.json();
+		return Promise.resolve(json);
+	}
+
+	public async confirmEmailCode(email: string, code: string) {
+
+		let headers = new Headers();
+		headers.append('Accept', 'application/json');
+		headers.append('Content-Type', 'application/json');
+		let options = new RequestOptions({headers: headers});
+
+		let body = {
+			payload: {
+				email: email,
+				code: code
+			}
+		}
+
+		let res = null;
+		try {
+			res = await this.http.post(Config.API_HOST+'/api/email/confirm', body, options).toPromise();
+			let json = res.json();
+			return Promise.resolve(json);
+		} catch(err) {
+			let message = JSON.parse(err['_body']).message;
+			return Promise.reject(message);
+		}
 	}
 
 }

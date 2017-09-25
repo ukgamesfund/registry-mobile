@@ -1,0 +1,30 @@
+<ion-header>
+    <ion-navbar class="navbar-with-action" color="primary">
+        <ion-title class="title-logo" text-center>
+            Restore account from seed
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content padding fullscreen="true" fixed>
+
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-list>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Wallet seed words</ion-label>
+                        <ion-textarea full type="text" [value]="seed" [(ngModel)]=seed></ion-textarea>
+                    </ion-item>
+                    <br>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <button ion-button full (click)='onRestore()'>Restore account</button>
+        </ion-row>
+    </ion-grid>
+
+</ion-content>

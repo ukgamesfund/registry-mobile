@@ -5,6 +5,7 @@ import {WalletService} from '../../providers/wallet-service'
 import {ApiService} from "../../providers/api-service";
 import {TransactionService} from "../../providers/transaction-service";
 import sleep from 'sleep-promise';
+import {Dialogs} from "@ionic-native/dialogs";
 
 @Component({
 	selector: 'page-wallet',
@@ -15,15 +16,22 @@ export class WalletPage {
 	balance: number = 0;
 	private loading: Loading
 
-	constructor(public zone: NgZone,
+	private user: any;
+
+	constructor(private zone: NgZone,
+	            private dialogs: Dialogs,
 	            private loadingCtrl: LoadingController,
-	            public apiService: ApiService,
+	            private apiService: ApiService,
 	            private walletService: WalletService,
 	            private transactionService: TransactionService) {
+
+		this.user = {name: '', email: ''};
 		this.updateBalance()
 	}
 
 	public async ngOnInit() {
+		this.user = await this.apiService.getUser();
+		console.log(JSON.stringify(this.user));
 	}
 
 	public async wallet() {
@@ -59,5 +67,17 @@ export class WalletPage {
 		this.zone.run(async () => {
 			this.balance = await this.transactionService.getBalance();
 		})
+	}
+
+	private async onBackup() {
+
+		let seed = this.walletService.getWalletSeed();
+		console.log(seed);
+
+		await this.dialogs.alert(
+			seed,
+			"Please keep this safe!",
+			"OK"
+		)
 	}
 }

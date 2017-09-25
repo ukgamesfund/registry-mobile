@@ -112,6 +112,31 @@ export class WalletService {
 		this.lock.release();
 		return Promise.resolve(success);
 	}
+
+	public async restoreWallet(seed: string) {
+		try {
+			await this.storage.remove('wallet')
+		} catch (error) {
+			console.log(error.message);
+		}
+
+		try {
+			await this.regularStorage.remove('wallet-needs-reset')
+		} catch (error) {
+			console.log(error.message);
+		}
+
+		this.ks = new EthLightWallet.keystore(seed, this.pdk);
+		this.ks.passwordProvider = (cb) => {
+			cb(null, this.password);
+		};
+
+		this.ks.generateNewAddress(this.pdk, 1);
+		this.address = this.ks.getAddresses()[0];
+
+		await this.storage.set('wallet', this.ks.serialize());
+		return true;
+	}
 	
 	public async walletExists(): Promise<Boolean> {
 
@@ -177,6 +202,10 @@ export class WalletService {
 
 		await this.initialize();
 		return this.ks;
+	}
+
+	public getWalletSeed() {
+		return this.ks.getSeed(this.pdk);
 	}
 
 	public encrypt(pubBase64: string, message: string) {

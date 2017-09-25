@@ -28,6 +28,9 @@ import {ApiService} from "../providers/api-service";
 
 import {HomePage} from "../pages/home/home";
 import {GlobalService} from "../providers/global-service";
+import {AccountCreatePage} from "../pages/account-create/account-create";
+import {AccountValidateEmailPage} from "../pages/account-validate-email/account-validate-email";
+import {AccountRestorePage} from "../pages/account-restore/account-restore";
 
 
 @NgModule({
@@ -38,6 +41,9 @@ import {GlobalService} from "../providers/global-service";
 		StartupPage,
 		HomePage,
 		ScannerPage,
+		AccountCreatePage,
+		AccountRestorePage,
+		AccountValidateEmailPage,
 	],
 	imports: [
 		QRCodeModule,
@@ -58,6 +64,9 @@ import {GlobalService} from "../providers/global-service";
 		StartupPage,
 		ScannerPage,
 		HomePage,
+		AccountCreatePage,
+		AccountRestorePage,
+		AccountValidateEmailPage,
 		QRCodeComponent,
 	],
 	providers: [
