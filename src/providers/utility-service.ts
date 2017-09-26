@@ -1,5 +1,4 @@
-﻿import {Injectable} from '@angular/core';
-
+﻿
 export enum ENV {
 	Local = 1,
 	Hyper,
@@ -22,7 +21,6 @@ export class Config {
 	}
 }
 
-@Injectable()
 export class Utils {
 
 	static add0x(input) {

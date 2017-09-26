@@ -2,8 +2,8 @@
 <widget id="com.talregistry.app" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Tal Registry</name>
     <description>Tracking creative IP onn the Ethereum Blockchain.</description>
-    <author email="mihai.cimpoesu@dltlab.io" href="http://dltlab.io/"></author>
-    <content src="index.html" />
+    <author email="mihai.cimpoesu@gmail.com" href="http://talregistry.com/" />
+    <content original-src="index.html" src="http://192.168.86.100:8100" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
     <allow-navigation href="http://192.168.58.1:8100" />
