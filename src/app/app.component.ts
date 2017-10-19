@@ -16,9 +16,6 @@ import {PostJobRewardPage} from "../pages/post-job/step-reward/postjob-reward";
 import {HomePage} from "../pages/home/home";
 import {WalletService} from "../providers/wallet-service";
 import {Dialogs} from "@ionic-native/dialogs";
-import {AccountValidateEmailPage} from "../pages/account-validate-email/account-validate-email";
-import {AccountCreatePage} from "../pages/account-create/account-create";
-import {AccountRestorePage} from "../pages/account-restore/account-restore";
 
 @Component({
 	templateUrl: 'app.html'

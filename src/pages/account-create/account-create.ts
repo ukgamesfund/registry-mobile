@@ -20,7 +20,6 @@ export class AccountCreatePage {
 	            private apiService: ApiService,
 	            private navParams: NavParams,
 	            private navCtrl: NavController,) {
-
 	}
 
 	async ngOnInit() {
@@ -48,7 +47,7 @@ export class AccountCreatePage {
 		}
 
 		try {
-			let ok = await this.apiService.sendEmailCode(this.email);
+			await this.apiService.sendEmailCode(this.email);
 		} catch (err) {
 			await this.dialogs.alert(
 				err.message,

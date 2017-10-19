@@ -5,6 +5,7 @@ import {IdentityService} from './identity-service';
 import {WalletService} from './wallet-service';
 import {Dialogs} from '@ionic-native/dialogs';
 import {Platform} from 'ionic-angular';
+import {CreateUserDto} from "../dtos/create-user.dto";
 
 @Injectable()
 export class ApiService {
@@ -63,14 +64,11 @@ export class ApiService {
 	public async addUser(name: string, email: string) {
 		let address = await this.walletService.address;
 
-		let body = {
-			user: {
-				address: address,
-				name: name,
-				email: email,
-				details: {}
-			}
-		};
+		let body: CreateUserDto = {
+			email: email,
+			name: name,
+			ethAddress: address
+		}
 
 		let options = await this.getOptions();
 
@@ -93,16 +91,15 @@ export class ApiService {
 		return Promise.resolve(json);
 	}
 
-	public async updateUser(name: string, details: any = {}) {
+	public async updateUser(name: string, email: string) {
 		let address = await this.walletService.address;
 
-		let body = {
-			user: {
-				address: address,
-				name: name,
-				details: details,
-			}
-		};
+		let body: CreateUserDto = {
+			email: email,
+			name: name,
+			ethAddress: address
+		}
+
 		let options = await this.getOptions();
 		let res = await this.http.put(Config.API_HOST+'/api/user', body, options).toPromise();
 		let json = res.json()
@@ -110,7 +107,6 @@ export class ApiService {
 	}
 
 	public async sendEmailCode(email: string) {
-
 
 		let headers = new Headers();
 		headers.append('Accept', 'application/json');
