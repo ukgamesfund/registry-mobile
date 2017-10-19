@@ -9,6 +9,13 @@
 
 
 <ion-content fullscreen="true" fixed>
+
+    <ion-fab top right edge>
+        <button color="light" ion-fab [navPush]="projectCreatePage" [navParams]="{}">
+            <ion-icon name="add-circle"></ion-icon>
+        </button>
+    </ion-fab>
+
     <ion-grid>
         <ion-row>
             <ion-card>

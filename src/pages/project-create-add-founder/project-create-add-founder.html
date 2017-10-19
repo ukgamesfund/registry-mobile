@@ -1,0 +1,38 @@
+
+<ion-header>
+    <ion-navbar>
+        <ion-buttons start>
+            <button ion-button (click)="dismiss()">Close</button>
+        </ion-buttons>
+        <ion-title>Add creative founder</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content >
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-list>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Founder email</ion-label>
+                        <ion-input full type="email" [value]="email" [(ngModel)]=email></ion-input>
+                    </ion-item>
+                    <br>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Number of Silver Tals</ion-label>
+                        <ion-input full type="number" [value]="silver" [(ngModel)]=silver></ion-input>
+                    </ion-item>
+                    <br>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Number of Copper Tals</ion-label>
+                        <ion-input full type="number" [value]="copper" [(ngModel)]=copper></ion-input>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <button ion-button full (click)='addCreativeFounder()'>Add creative founder</button>
+        </ion-row>
+    </ion-grid>
+</ion-content>

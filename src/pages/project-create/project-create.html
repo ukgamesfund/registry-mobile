@@ -1,0 +1,59 @@
+<ion-header>
+    <ion-navbar color="primary">
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <ion-title>Create new project</ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content >
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-list>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Project name</ion-label>
+                        <ion-input full type="text" [value]="name" [(ngModel)]=name></ion-input>
+                    </ion-item>
+                    <br>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Project email address</ion-label>
+                        <ion-input full type="email" [value]="email" [(ngModel)]=email></ion-input>
+                    </ion-item>
+                    <br>
+                    <ion-item>
+                        <ion-label color="primary" stacked>Project description</ion-label>
+                        <ion-textarea full type="textarea" [value]="description" [(ngModel)]=description></ion-textarea>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+
+        <ion-row *ngIf="founders.length>0">
+            <ion-col>
+                <ion-card *ngFor="let founder of founders">
+                    <ion-card-content >
+                        <p>Email: <strong>{{founder.email}}</strong></p><br>
+                        <p>Silver Tals: <strong>{{founder.silver}}</strong></p><br>
+                        <p>Copper Tals: <strong>{{founder.copper}}</strong></p><br>
+                    </ion-card-content>
+
+                    <ion-row>
+                        <button ion-button full (click)='editCreativeFounder()'>Edit Founder</button>
+                        <button ion-button color="danger" full (click)='deleteCreativeFounder()'>Delete Founder</button>
+                    </ion-row>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <button ion-button full (click)='addCreativeFounder()'>Add creative founder</button>
+        </ion-row>
+        <br>
+        <ion-row>
+            <button ion-button color="secondary" full (click)='createProject()'>Create project</button>
+        </ion-row>
+    </ion-grid>
+</ion-content>

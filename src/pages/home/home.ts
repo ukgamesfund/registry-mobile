@@ -8,6 +8,7 @@ import {Storage} from '@ionic/storage';
 import {IdentityService} from "../../providers/identity-service";
 import {WalletService} from "../../providers/wallet-service";
 import {ApiService} from "../../providers/api-service";
+import {ProjectCreatePage} from "../project-create/project-create";
 
 @Component({
 	selector: 'page-home',
@@ -16,9 +17,12 @@ import {ApiService} from "../../providers/api-service";
 export class HomePage {
 
 	private loading: Loading
+	private projectCreatePage = ProjectCreatePage;
 
-	constructor(public navCtrl: NavController,
-	            public navParams: NavParams,
+	private projects: any;
+
+	constructor(private navCtrl: NavController,
+	            private navParams: NavParams,
 	            private dialogs: Dialogs,
 	            private loadingCtrl: LoadingController,
 	            private platform: Platform,
@@ -32,12 +36,15 @@ export class HomePage {
 			showBackdrop: true,
 			content: "Please wait while we're preparing your experience..."
 		});
-
-		this.loading.present()
 	}
 
-	async ngOnInit() {
+	private async ngOnInit() {
+		await this.loading.present();
+
 		await this.walletService.initializeWallet();
+		this.projects = await this.apiService.getAllProjects();
+
 		await this.loading.dismiss();
+		console.log('projects= '+JSON.stringify(this.projects));
 	}
 }

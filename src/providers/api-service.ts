@@ -5,7 +5,8 @@ import {IdentityService} from './identity-service';
 import {WalletService} from './wallet-service';
 import {Dialogs} from '@ionic-native/dialogs';
 import {Platform} from 'ionic-angular';
-import {CreateUserDto} from "../dtos/create-user.dto";
+import {CreateUserDto} from "../models/dto/create-user.dto";
+import {CreateProjectDto} from "../models/dto/create-project.dto";
 
 @Injectable()
 export class ApiService {
@@ -27,6 +28,15 @@ export class ApiService {
 		headers.append('Accept', 'application/json');
 		headers.append('Content-Type', 'application/json');
 		headers.append('Authorization', 'Bearer '+jwt);
+
+		return new RequestOptions({headers: headers});
+	}
+
+	public async getHeaders() : Promise<RequestOptions> {
+
+		let headers = new Headers();
+		headers.append('Accept', 'application/json');
+		headers.append('Content-Type', 'application/json');
 
 		return new RequestOptions({headers: headers});
 	}
@@ -61,7 +71,7 @@ export class ApiService {
 		return Promise.resolve(tx);
 	}
 
-	public async addUser(name: string, email: string) {
+	public async addUser(name: string, email: string): Promise<any> {
 		let address = await this.walletService.address;
 
 		let body: CreateUserDto = {
@@ -72,7 +82,6 @@ export class ApiService {
 
 		let options = await this.getOptions();
 
-		let res = null;
 		try {
 			let res = await this.http.post(Config.API_HOST+'/api/user', body, options).toPromise();
 			let json = res.json();
@@ -83,7 +92,7 @@ export class ApiService {
 		}
 	}
 
-	public async getUser() {
+	public async getUser(): Promise<any> {
 		let address = await this.walletService.address;
 		let options = await this.getOptions();
 		let res = await this.http.get(Config.API_HOST+'/api/user/'+address, options).toPromise();
@@ -106,13 +115,9 @@ export class ApiService {
 		return Promise.resolve(json)
 	}
 
-	public async sendEmailCode(email: string) {
+	public async sendEmailCode(email: string): Promise<any> {
 
-		let headers = new Headers();
-		headers.append('Accept', 'application/json');
-		headers.append('Content-Type', 'application/json');
-		let options = new RequestOptions({headers: headers});
-
+		let options = await this.getHeaders();
 		let body = {
 			email: email
 		}
@@ -122,13 +127,9 @@ export class ApiService {
 		return Promise.resolve(json);
 	}
 
-	public async confirmEmailCode(email: string, code: string) {
+	public async confirmEmailCode(email: string, code: string): Promise<any> {
 
-		let headers = new Headers();
-		headers.append('Accept', 'application/json');
-		headers.append('Content-Type', 'application/json');
-		let options = new RequestOptions({headers: headers});
-
+		let options = await this.getHeaders();
 		let body = {
 			payload: {
 				email: email,
@@ -136,15 +137,31 @@ export class ApiService {
 			}
 		}
 
-		let res = null;
 		try {
-			res = await this.http.post(Config.API_HOST+'/api/email/confirm', body, options).toPromise();
+			let res = await this.http.post(Config.API_HOST+'/api/email/confirm', body, options).toPromise();
 			let json = res.json();
 			return Promise.resolve(json);
 		} catch(err) {
 			let message = JSON.parse(err['_body']).message;
 			return Promise.reject(message);
 		}
+	}
+
+	public async getAllProjects(): Promise<any> {
+		let options = await this.getOptions();
+		let user = await this.getUser();
+
+		let res = await this.http.get(Config.API_HOST+'/api/project/'+user.email, options).toPromise();
+		let json = res.json();
+		return Promise.resolve(json);
+	}
+
+	public async createNewProject(project: CreateProjectDto): Promise<any> {
+		let options = await this.getOptions();
+
+		let res = await this.http.post(Config.API_HOST+'/api/email/code', project, options).toPromise();
+		let json = res.json();
+		return Promise.resolve(json);
 	}
 
 }

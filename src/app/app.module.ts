@@ -31,6 +31,8 @@ import {GlobalService} from "../providers/global-service";
 import {AccountCreatePage} from "../pages/account-create/account-create";
 import {AccountValidateEmailPage} from "../pages/account-validate-email/account-validate-email";
 import {AccountRestorePage} from "../pages/account-restore/account-restore";
+import {ProjectCreatePage} from "../pages/project-create/project-create";
+import {ProjectCreateAddFounderPage} from "../pages/project-create-add-founder/project-create-add-founder";
 
 
 @NgModule({
@@ -44,6 +46,9 @@ import {AccountRestorePage} from "../pages/account-restore/account-restore";
 		AccountCreatePage,
 		AccountRestorePage,
 		AccountValidateEmailPage,
+		ProjectCreatePage,
+		ProjectCreateAddFounderPage,
+
 	],
 	imports: [
 		QRCodeModule,
@@ -59,6 +64,7 @@ import {AccountRestorePage} from "../pages/account-restore/account-restore";
 	bootstrap: [IonicApp],
 	entryComponents: [
 		MyApp,
+		QRCodeComponent,
 		WalletPage,
 		TxDemoPage,
 		StartupPage,
@@ -67,7 +73,8 @@ import {AccountRestorePage} from "../pages/account-restore/account-restore";
 		AccountCreatePage,
 		AccountRestorePage,
 		AccountValidateEmailPage,
-		QRCodeComponent,
+		ProjectCreatePage,
+		ProjectCreateAddFounderPage,
 	],
 	providers: [
 		StatusBar,
