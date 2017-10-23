@@ -4,7 +4,8 @@
         <ion-buttons start>
             <button ion-button (click)="dismiss()">Close</button>
         </ion-buttons>
-        <ion-title>Add creative founder</ion-title>
+        <ion-title *ngIf="index===undefined">Add creative founder</ion-title>
+        <ion-title *ngIf="index!==undefined">Edit creative founder</ion-title>
     </ion-navbar>
 </ion-header>
 
@@ -32,7 +33,7 @@
         </ion-row>
 
         <ion-row>
-            <button ion-button full (click)='addCreativeFounder()'>Add creative founder</button>
+            <button ion-button full (click)='addCreativeFounder()'>Submit</button>
         </ion-row>
     </ion-grid>
 </ion-content>

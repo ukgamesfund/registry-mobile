@@ -7,6 +7,8 @@ import {Dialogs} from '@ionic-native/dialogs';
 import {Platform} from 'ionic-angular';
 import {CreateUserDto} from "../models/dto/create-user.dto";
 import {CreateProjectDto} from "../models/dto/create-project.dto";
+import {GetMyProjectsDto} from "../models/dto/get-my-projects.dto";
+import {GetProjectDto} from "../models/dto/get-project.dto";
 
 @Injectable()
 export class ApiService {
@@ -147,20 +149,29 @@ export class ApiService {
 		}
 	}
 
-	public async getAllProjects(): Promise<any> {
+	public async getMyProjects(): Promise<GetMyProjectsDto> {
 		let options = await this.getOptions();
 		let user = await this.getUser();
 
-		let res = await this.http.get(Config.API_HOST+'/api/project/'+user.email, options).toPromise();
-		let json = res.json();
+		let res = await this.http.get(Config.API_HOST+'/api/projects/'+user.email, options).toPromise();
+		let json: GetMyProjectsDto = res.json();
 		return Promise.resolve(json);
 	}
 
 	public async createNewProject(project: CreateProjectDto): Promise<any> {
 		let options = await this.getOptions();
 
-		let res = await this.http.post(Config.API_HOST+'/api/email/code', project, options).toPromise();
+		let res = await this.http.post(Config.API_HOST+'/api/project', project, options).toPromise();
 		let json = res.json();
+		return Promise.resolve(json);
+	}
+
+	public async getProjectByName(name: string): Promise<GetProjectDto> {
+		let b64name = new Buffer(name).toString('base64')
+		let options = await this.getOptions();
+
+		let res = await this.http.get(Config.API_HOST+'/api/project/'+b64name, options).toPromise();
+		let json: GetProjectDto = res.json();
 		return Promise.resolve(json);
 	}
 

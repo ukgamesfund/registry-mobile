@@ -9,7 +9,6 @@
 
 
 <ion-content fullscreen="true" fixed>
-
     <ion-fab top right edge>
         <button color="light" ion-fab [navPush]="projectCreatePage" [navParams]="{}">
             <ion-icon name="add-circle"></ion-icon>
@@ -17,10 +16,41 @@
     </ion-fab>
 
     <ion-grid>
-        <ion-row>
-            <ion-card>
-                <ion-card-content>Projects list</ion-card-content>
-            </ion-card>
-        </ion-row>
+        <ion-item-group *ngIf="draftProjects.length>0">
+            <ion-item-divider color="light">Draft Projects</ion-item-divider>
+            <ion-item *ngFor="let pj1 of draftProjects">
+                {{pj1.name}}
+            </ion-item>
+        </ion-item-group>
+
+        <ion-item-group *ngIf="awaitingProjects.length>0">
+            <ion-item-divider color="light">Awaiting Projects</ion-item-divider>
+            <ion-item *ngFor="let pj2 of awaitingProjects">
+                {{pj2.name}}
+            </ion-item>
+        </ion-item-group>
+
+        <ion-item-group *ngIf="confirmedProjects.length>0">
+            <ion-item-divider color="light">Confirmed Projects</ion-item-divider>
+            <ion-item *ngFor="let pj3 of confirmedProjects">
+                {{pj3.name}}
+            </ion-item>
+        </ion-item-group>
+
+        <ion-item-group *ngIf="committedProjects.length>0">
+            <ion-item-divider color="light">Committed Projects</ion-item-divider>
+            <ion-item *ngFor="let pj4 of committedProjects">
+                {{pj4.name}}
+            </ion-item>
+        </ion-item-group>
+
+        <ion-item-group *ngIf="declinedProjects.length>0">
+            <ion-item-divider color="light">Declined Projects</ion-item-divider>
+            <ion-item *ngFor="let pj5 of declinedProjects">
+                {{pj5.name}}
+            </ion-item>
+        </ion-item-group>
+
     </ion-grid>
 </ion-content>
+

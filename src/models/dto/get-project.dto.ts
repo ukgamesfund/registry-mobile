@@ -1,19 +1,23 @@
-import {Project} from "../entity/project.entity"
+import {CreativeFounder} from "./create-project.dto";
 import {Membership} from "../entity/membership.entity";
+import {ProjectState} from "../entity/project.entity";
 
-export class GetProjectsDto {
-	private memberOf: Array<Project> = [];
+export class GetProjectDto {
+    public founders: Array<CreativeFounder> = [];
 
-	constructor(private initiated: Project[],
-	            memberships: Membership[]) {
+    constructor(public name:string,
+        public email: string,
+        public state: ProjectState,
+        public details: any,
+        memberships: Membership[]) {
 
-		if (memberships.length <= 0) {
-			return;
-		}
-
-		this.memberOf = new Array(memberships.length);
-		for (let membership of memberships) {
-			this.memberOf.push(membership.project);
-		}
-	}
+        for (let membership of memberships) {
+            let founder: CreativeFounder = new CreativeFounder(membership.user.name,
+                membership.user.email,
+                membership.silver,
+                membership.copper,
+                membership.status);
+            this.founders.push(founder);
+        }
+    }
 }

@@ -33,6 +33,8 @@ import {AccountValidateEmailPage} from "../pages/account-validate-email/account-
 import {AccountRestorePage} from "../pages/account-restore/account-restore";
 import {ProjectCreatePage} from "../pages/project-create/project-create";
 import {ProjectCreateAddFounderPage} from "../pages/project-create-add-founder/project-create-add-founder";
+import {TextareaAutoresize} from "../directives/textarea-auto-resize";
+import {HomeDraftsPage} from "../pages/home-drafts/home-drafts";
 
 
 @NgModule({
@@ -48,7 +50,7 @@ import {ProjectCreateAddFounderPage} from "../pages/project-create-add-founder/p
 		AccountValidateEmailPage,
 		ProjectCreatePage,
 		ProjectCreateAddFounderPage,
-
+		TextareaAutoresize,
 	],
 	imports: [
 		QRCodeModule,

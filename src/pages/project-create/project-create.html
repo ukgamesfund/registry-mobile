@@ -8,7 +8,12 @@
 </ion-header>
 
 
-<ion-content >
+<ion-content fullscreen="true" fixed>
+    <ion-fab top right edge>
+        <button color="light" ion-fab (click)='addCreativeFounder()'>
+            <ion-icon name="add-circle"></ion-icon>
+        </button>
+    </ion-fab>
     <ion-grid>
         <ion-row>
             <ion-col>
@@ -25,7 +30,7 @@
                     <br>
                     <ion-item>
                         <ion-label color="primary" stacked>Project description</ion-label>
-                        <ion-textarea full type="textarea" [value]="description" [(ngModel)]=description></ion-textarea>
+                        <ion-textarea autoresize full type="textarea" [value]="description" [(ngModel)]=description></ion-textarea>
                     </ion-item>
                 </ion-list>
             </ion-col>
@@ -33,27 +38,33 @@
 
         <ion-row *ngIf="founders.length>0">
             <ion-col>
-                <ion-card *ngFor="let founder of founders">
-                    <ion-card-content >
-                        <p>Email: <strong>{{founder.email}}</strong></p><br>
-                        <p>Silver Tals: <strong>{{founder.silver}}</strong></p><br>
-                        <p>Copper Tals: <strong>{{founder.copper}}</strong></p><br>
-                    </ion-card-content>
-
-                    <ion-row>
-                        <button ion-button full (click)='editCreativeFounder()'>Edit Founder</button>
-                        <button ion-button color="danger" full (click)='deleteCreativeFounder()'>Delete Founder</button>
-                    </ion-row>
-                </ion-card>
+                <div *ngFor="let founder of founders">
+                    <ion-card no-padding no-margin style="width: 100%;">
+                        <ion-card-content>
+                            <span class="text">Email: <strong class="text">{{founder.email}}</strong></span><br>
+                            <span class="text">Silver Tals: <strong class="text">{{founder.silver}}</strong></span><br>
+                            <span class="text">Copper Tals: <strong class="text">{{founder.copper}}</strong></span><br>
+                        </ion-card-content>
+                        <ion-row>
+                            <ion-col>
+                                <button ion-button full (click)='editCreativeFounder(founder)'>Edit</button>
+                            </ion-col>
+                            <ion-col>
+                                <button ion-button color="danger" full (click)='deleteCreativeFounder(founder)'>Delete
+                                </button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-card>
+                    <br>
+                </div>
             </ion-col>
         </ion-row>
 
-        <ion-row>
-            <button ion-button full (click)='addCreativeFounder()'>Add creative founder</button>
-        </ion-row>
         <br>
         <ion-row>
-            <button ion-button color="secondary" full (click)='createProject()'>Create project</button>
+            <ion-col>
+                <button ion-button full (click)='createProject()'>Create project</button>
+            </ion-col>
         </ion-row>
     </ion-grid>
 </ion-content>

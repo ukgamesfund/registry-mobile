@@ -1,17 +1,21 @@
-import {ProjectState} from "../entity/project.entity"
+import {ProjectState} from '../entity/project.entity'
+import {MembershipStatus} from "../entity/membership.entity";
 
 export class CreativeFounder {
-	readonly name: string;
-	readonly email: string;
-	readonly silver: number;
-	readonly copper: number;
+	public constructor(readonly name: string,
+		readonly email: string,
+		readonly silver: number,
+		readonly copper: number,
+	   	readonly status?: MembershipStatus) {
+	}
 }
 
 export class CreateProjectDto {
-	readonly initiatorAddress: string;
-	readonly state: ProjectState;
-	readonly name: string;
-	readonly email: string;
-	readonly details: any;
-	readonly founders: CreativeFounder[];
+	constructor(readonly initiatorAddress: string,
+		readonly state: ProjectState,
+		readonly name: string,
+		readonly email: string,
+		readonly details: any,
+		readonly founders: CreativeFounder[]) {
+	}
 }
